@@ -56,8 +56,8 @@ init xs = reverse (tail (reverse xs))
 -- xs !! 4 == ERROR
 -----------------------------------------------------------------------------------------------------------
 (!!) :: [a] -> Int -> a
-xs !! n = error "TODO implement !!"
-
+xs !! n = head (drop n xs) 
+            
 -- Exercise D
 -----------------------------------------------------------------------------------------------------------
 -- Implement the functions firstHalf and lastHalf, that take a list and return the first and last halfs
@@ -65,10 +65,10 @@ xs !! n = error "TODO implement !!"
 -- HINT: use the `div` function instead of / to do integer division when dividing the length of the list
 --       by 2, then take or drop those amount of elements from the list
 firstHalf :: [a] -> [a]
-firstHalf xs = error "TODO implement firstHalf"
+firstHalf xs = take (length xs `div` 2) xs 
 
 lastHalf :: [a] -> [a]
-lastHalf xs = error "TODO implement lastHalf"
+lastHalf xs = drop (length xs `div` 2) xs
 
 -- Exercise E
 -----------------------------------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ lastHalf xs = error "TODO implement lastHalf"
 --   inners [1,2,3,4] == [2,3]
 inners :: [a] -> [a]
 inners [] = []
-inners xs = error "TODO implement inners"
+inners xs = reverse $drop 1 $reverse $drop 1 xs
 
 -- Exercise F
 -----------------------------------------------------------------------------------------------------------
