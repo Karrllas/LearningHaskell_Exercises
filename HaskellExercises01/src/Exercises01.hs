@@ -35,7 +35,7 @@ macid = "TODO"
 -- other available Prelude functions
 -----------------------------------------------------------------------------------------------------------
 last :: [a] -> a
-last xs = error "TODO implement init"
+last xs = head(reverse xs)
 
 -- Exercise B
 -----------------------------------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ last xs = error "TODO implement init"
 -- combination of other available Prelude functions
 -----------------------------------------------------------------------------------------------------------
 init :: [a] -> [a]
-init xs = error "TODO implement init"
+init xs = reverse (tail (reverse xs))
 
 -- Exercise C
 -----------------------------------------------------------------------------------------------------------
