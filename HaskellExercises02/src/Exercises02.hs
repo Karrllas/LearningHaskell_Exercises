@@ -36,21 +36,30 @@ macid = "TODO"
 --      the type decleration
 -----------------------------------------------------------------------------------------------------------
 (||) :: Bool -> Bool -> Bool
-x || y = error "TODO implement ||"
+True || True = True
+True || False = True
+False || False = False
+False || True = True 
 
 -- Exercise B
 -----------------------------------------------------------------------------------------------------------
 -- Implement Logical conjunction (AND) using pattern matching
 -----------------------------------------------------------------------------------------------------------
 (&&) :: Bool -> Bool -> Bool
-x && y = error "TODO implement &&"
+True && True = True
+True && False = False
+False && True = False
+False && False = False
 
 -- Exercise C
 -----------------------------------------------------------------------------------------------------------
 -- Implement Logical implication using pattern matching
 -----------------------------------------------------------------------------------------------------------
 (==>) :: Bool -> Bool -> Bool
-x ==> y = error "TODO implement ==>"
+True ==> False = False
+False ==> True = True
+False ==> False = True
+True ==> True = True
 
 -- Exercise D
 -----------------------------------------------------------------------------------------------------------
@@ -75,7 +84,7 @@ x =. y = error "TODO implement =."
 -- Implement a function stack that takes the first element of a list and moves it to the back
 -----------------------------------------------------------------------------------------------------------
 stack :: [a] -> [a]
-stack xs = error "TODO implement stack"
+stack xs = drop 1 xs ++ take 1 xs
 
 -- Exercise G
 -----------------------------------------------------------------------------------------------------------
