@@ -66,7 +66,9 @@ True ==> True = True
 -- Implement the function abs that returns the absolute value of a number
 -----------------------------------------------------------------------------------------------------------
 abs :: (Num a,Ord a) => a -> a
-abs x = error "TODO implement abs"
+abs x = if x < 0
+          then  - x 
+          else  x
 
 -- Exercise E
 -----------------------------------------------------------------------------------------------------------
