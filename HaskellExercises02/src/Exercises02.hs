@@ -39,7 +39,7 @@ macid = "TODO"
 True || True = True
 True || False = True
 False || False = False
-False || True = True 
+False || True = True
 
 -- Exercise B
 -----------------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ True ==> True = True
 -----------------------------------------------------------------------------------------------------------
 abs :: (Num a,Ord a) => a -> a
 abs x = if x < 0
-          then  - x 
+          then  - x
           else  x
 
 -- Exercise E
@@ -79,7 +79,8 @@ abs x = if x < 0
 --        HOWEVER, you'll need to adjust the tolerance to suit different contexts
 -----------------------------------------------------------------------------------------------------------
 (=.) :: (Floating a,Ord a) => a -> a -> Bool
-x =. y = error "TODO implement =."
+x =. y = abs x - y < 0.0001
+
 
 -- Exercise F
 -----------------------------------------------------------------------------------------------------------
@@ -95,4 +96,4 @@ stack xs = drop 1 xs ++ take 1 xs
 -- NOTE use the map function combined with a lambda expression to do the division
 -----------------------------------------------------------------------------------------------------------
 halves :: Integral a => [a] -> [a]
-halves xs = error "TODO implement halves"
+halves xs = map (div 2) []  
