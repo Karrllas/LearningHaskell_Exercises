@@ -33,7 +33,9 @@ macid = "TODO"
 -- NOTE zip short circuits on the shortest list
 -----------------------------------------------------------------------------------------------------------
 zip :: [a] -> [b] -> [(a,b)]
-zip xs ys = error "TODO implement zip"
+zip _xs [] = []
+zip [] _ys = []
+zip (x:xs) (y:ys) = (x,y) : zip xs ys 
 
 -- Exercise B
 -----------------------------------------------------------------------------------------------------------
@@ -44,8 +46,7 @@ zip xs ys = error "TODO implement zip"
 -- NOTE zip [0..] xs   creates a list of (index,element) tuples
 -----------------------------------------------------------------------------------------------------------
 mapWithIndex :: ((Int,a) -> b) -> [a] -> [b]
-mapWithIndex f xs = error "TODO implement mapWithIndex"
-
+mapWithIndex f xs = map f (zip[0..] xs)
 -- Exercise C
 -----------------------------------------------------------------------------------------------------------
 -- Implement the function mySum that works just like the Prelude function sum that adds up all the elements
@@ -56,8 +57,10 @@ data List a = Cons a (List a)
   deriving (Show,Eq)
 
 mySum :: (Num a) => List a -> a
-mySum xs       = error "TODO implement mySum"
-
+mySum Nil = 0 
+mySum (Cons x xs) = x + mySum xs
+--mySum xs = error "blet" 
+--mySum (x:xs) = x + mySum xs
 -- Exercise D
 -----------------------------------------------------------------------------------------------------------
 -- Implement the operator +++ that works just like the Prelude operator ++ that puts two list together
