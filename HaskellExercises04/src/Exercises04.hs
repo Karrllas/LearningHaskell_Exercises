@@ -59,23 +59,32 @@ data List a = Cons a (List a)
 mySum :: (Num a) => List a -> a
 mySum Nil = 0 
 mySum (Cons x xs) = x + mySum xs
---mySum xs = error "blet" 
---mySum (x:xs) = x + mySum xs
+
 -- Exercise D
 -----------------------------------------------------------------------------------------------------------
 -- Implement the operator +++ that works just like the Prelude operator ++ that puts two list together
 -- (i.e. concatenates them), but works on the above custom List data type instead
 -----------------------------------------------------------------------------------------------------------
 (+++) :: List a -> List a -> List a
-xs +++ ys = error "TODO implement +++"
 
+--Nil +++ xs = xs
+--(Cons x y) +++ xs = y +++ Cons x xs
+Nil +++ xs = xs
+Cons x Nil +++ xs = Cons x xs 
+Cons x (Cons z y) +++ xs = Cons x (Cons z y +++ xs)
+
+
+-- 
 -- Exercise E
 -----------------------------------------------------------------------------------------------------------
 -- Implement the function myReverse that works just like the Prelude function reverse that reverses the
 -- order of all elements in a list, but works on the above custom List data type instead
 -----------------------------------------------------------------------------------------------------------
 myReverse :: List a -> List a
-myReverse xs  = error "TODO implement myReverse"
+myReverse Nil  = Nil
+myReverse (Cons x y) = myReverse y +++ Cons x Nil
+
+-- Cons 2 (Cons 4 (Cons 7 Nil)) --> Cons 7 Cons 4 Cons 2 Nil
 
 -- Exercise F
 -----------------------------------------------------------------------------------------------------------
@@ -87,7 +96,8 @@ data Tree a = Node a (Tree a) (Tree a)
   deriving (Show,Eq)
 
 treeSum :: Num a => Tree a -> a
-treeSum tree = error "TODO implement treeSum"
+treeSum Empty  = 0 
+treeSum (Node x y z)  = x + treeSum y + treeSum z  
 
 
 -- Exercise G
@@ -103,20 +113,27 @@ treeSum tree = error "TODO implement treeSum"
 -- NOTE the Empty Tree is of height 0
 -----------------------------------------------------------------------------------------------------------
 treeHeight :: Tree a -> Int
-treeHeight tree = error "TODO implement treeHeight"
+treeHeight Empty = 0
+treeHeight (Node x y z) = 1 + maximum[treeHeight y, treeHeight z]
 
 -- Exercise H
 -----------------------------------------------------------------------------------------------------------
 -- Implement the Prelude functions take and drop that take / drop the first n elements of a list
 -----------------------------------------------------------------------------------------------------------
 take :: Int -> [a] -> [a]
-take n xs = error "TODO implement take"
-
+take 0 xs = [] 
+take n [] = []
+take n xs = head xs : take (n-1) (tail xs) 
 drop :: Int -> [a] -> [a]
-drop n xs = error "TODO implement drop"
+drop 0 xs = xs
+drop n [] = []
+drop n xs = drop (n-1)(tail xs)
 
 -- Extra Challenge
 -----------------------------------------------------------------------------------------------------------
 -- Try and create a QuickCheck property that tests take and drop in combination
 -- See the function takeDropProp in app/Main.hs for a solution
 -----------------------------------------------------------------------------------------------------------
+
+takeDropProp :: Int -> [Int] -> Bool
+takeDropProp x xs = (take x xs ++ drop x xs) == xs
