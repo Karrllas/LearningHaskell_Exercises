@@ -10,7 +10,14 @@ Description:
   Haskell exercise template Set 05 - McMaster CS 1JC3 2021
 -}
 module Exercises05 where
-
+import Test.QuickCheck (quickCheck,
+                          quickCheckResult,
+                          quickCheckWithResult,
+                          stdArgs,
+                          maxSuccess,
+                          Result(Success),
+                          within,
+                          Testable)
 import Prelude hiding (take,drop,replicate,(!!),elem,and,or)
 
 -----------------------------------------------------------------------------------------------------------
@@ -38,10 +45,14 @@ split :: [a] -> ([a],[a])
 split xs =
   let
     half = length xs `div` 2
-    split' xs (y:ys) n = error "TODO implement split'"
+    split' xs ys 0 = (reverse xs, ys)
+    split' xs (y:ys) n = split' (y:xs) ys (n-1)
     split' xs [] n = (xs,[])
-   in split' [] xs half
 
+   in split' [] xs half
+-- [] [1,2,3,4] 2 ---> ([1,2],[3,4]) 
+-- [1] , [2,3,4] 1 
+-- [1,2], [3,4] 0
 
 -- Exercise B
 -----------------------------------------------------------------------------------------------------------
@@ -49,7 +60,11 @@ split xs =
 -- them together in to a sorted list
 -----------------------------------------------------------------------------------------------------------
 merge :: (Ord a) => [a] -> [a] -> [a]
-merge xs ys = error "TODO implement merge"
+merge (x:xs) (y:ys)  
+    | x < y = x: merge xs (y:ys)  
+    | otherwise = y: merge (x:xs) ys
+merge [] ys = ys
+merge xs [] = xs 
 
 -- Exercise C
 -----------------------------------------------------------------------------------------------------------
@@ -58,7 +73,15 @@ merge xs ys = error "TODO implement merge"
 -- NOTE singleton and empty lists are already sorted
 -----------------------------------------------------------------------------------------------------------
 mergeSort :: (Ord a) => [a] -> [a]
-mergeSort xs = error "TODO implement mergeSort"
+mergeSort [] = []
+mergeSort [x] = [x]
+mergeSort xs = merge (mergeSort (fst (split xs))) (mergeSort (snd (split xs)))
+
+--     '             [1,5,6,8]
+--   '   '         [1,5]   [6,8]
+--  ' ' ' '
+--
+--
 
 -- Exercise D
 -----------------------------------------------------------------------------------------------------------
@@ -67,7 +90,7 @@ mergeSort xs = error "TODO implement mergeSort"
 --      quickCheck (sortProp . mergeSort)
 -----------------------------------------------------------------------------------------------------------
 sortProp :: (Ord a) => [a] -> Bool
-sortProp xs = error "TODO implement sortProp"
+sortProp xs = mergeSort xs == xs
 
 -- Exercise E
 -----------------------------------------------------------------------------------------------------------
