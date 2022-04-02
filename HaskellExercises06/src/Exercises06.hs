@@ -34,17 +34,21 @@ macid = "TODO"
 -- NOTE QuickCheck test uses (+) as the function parameter
 -----------------------------------------------------------------------------------------------------------
 zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
-zipWith op xs ys = error "TODO implement zipWith"
+zipWith op xs [] = []
+zipWith op [] ys = []
+zipWith op (x:xs) (y:ys) = op x y : zipWith op xs ys
 
 -- Exercise B
 -----------------------------------------------------------------------------------------------------------
 -- Implement the Prelude function foldr "folds" an operator to the right. For example
 -- E.x.  foldr (/) 1 [18,27,3]
 --      = 18 / (27 / (3 / 1))
+--   
 -- NOTE QuickCheck test uses (-) as the function parameter
 -----------------------------------------------------------------------------------------------------------
 foldr :: (a -> b -> b) -> b -> [a] -> b
-foldr op v xs = error "TODO implement foldr"
+foldr op v [] = v
+foldr op v (x:xs) = op x (foldr op v xs)
 
 -- Exercise C
 -----------------------------------------------------------------------------------------------------------
@@ -54,16 +58,20 @@ foldr op v xs = error "TODO implement foldr"
   -- NOTE QuickCheck test uses (-) as the function parameter
 -----------------------------------------------------------------------------------------------------------
 foldl :: (b -> a -> b) -> b -> [a] -> b
-foldl op v xs = error "TODO implement foldr"
+foldl op v [] = v
+foldl op v (x:xs) = foldl op (op v x) xs
 
--- Exercise D
+-- Exercise D   18+1+2 + 9
 -----------------------------------------------------------------------------------------------------------
 -- Implement the Prelude function concat (which takes a list of lists, and combines them into
 -- just a list) using foldl
+
+-- (1:(2:[])) : (2:(3:[]))
 -----------------------------------------------------------------------------------------------------------
 concat :: [[a]] -> [a]
-concat xss = error "TODO implement concat"
-
+--concat [] = []
+--concat (xs:xss) = xs ++ concat xss
+concat = foldl (++) [] 
 -- Exercise E
 -----------------------------------------------------------------------------------------------------------
 -- Implement the Prelude function concatMap using foldr. concatMap takes a function that returns a list,
@@ -73,7 +81,10 @@ concat xss = error "TODO implement concat"
   -- NOTE QuickCheck test uses (replicate 2) as the function parameter
 -----------------------------------------------------------------------------------------------------------
 concatMap :: (a -> [b]) -> [a] -> [b]
-concatMap f xs  = error "TODO implement concatMap"
+concatMap f [] = []
+concatMap f (xs)  = foldr ((++).f) [] xs
+--f x ++ concatMap f xs //op x (foldr op v xs)
+
 
 -- Exercise F
 -----------------------------------------------------------------------------------------------------------
@@ -85,4 +96,8 @@ concatMap f xs  = error "TODO implement concatMap"
 --       lookup 2 [(0,'a'),(2,'b'),(2,'c')] == Just 'b'
 -----------------------------------------------------------------------------------------------------------
 lookup :: Eq k => k -> [(k,v)] -> Maybe v
-lookup k0 ds = error "TODO implement lookup"
+
+lookup k0 [] = Nothing
+lookup k0 ((d,s):ds) 
+                | k0 == d = Just s
+                | otherwise = lookup k0 ds

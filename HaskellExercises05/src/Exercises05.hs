@@ -90,7 +90,9 @@ mergeSort xs = merge (mergeSort (fst (split xs))) (mergeSort (snd (split xs)))
 --      quickCheck (sortProp . mergeSort)
 -----------------------------------------------------------------------------------------------------------
 sortProp :: (Ord a) => [a] -> Bool
-sortProp xs = mergeSort xs == xs
+sortProp [] = True
+sortProp [_] = True
+sortProp (x:x1:xs) = x1 >= x  && sortProp (x1:xs)
 
 -- Exercise E
 -----------------------------------------------------------------------------------------------------------
@@ -98,15 +100,21 @@ sortProp xs = mergeSort xs == xs
 -- replicates that element n times
 -----------------------------------------------------------------------------------------------------------
 replicate :: Int -> a -> [a]
-replicate n x = error "TODO implement replicate"
+replicate 0 x = []
+replicate _ _ = []
+--replicate n x = x:replicate (n-1) x ---- why loop?
 
 -- Exercise F
 -----------------------------------------------------------------------------------------------------------
 -- Implement the Prelude function !! that selects the nth element of a list using recursion
 -- NOTE throw an error when indexing out of bounds
 -----------------------------------------------------------------------------------------------------------
-(!!) :: [a] -> Int -> a
-(!!) xs n = error "TODO implement !!"
+(!!) :: [a] -> Int -> a 
+(!!) [] _ = error "index out of bounds"
+(!!) (x:xs) 1 = x 
+(!!) (x:xs) n = (!!) xs (n-1) 
+
+
 
 -- Exercise G
 -----------------------------------------------------------------------------------------------------------
@@ -114,4 +122,7 @@ replicate n x = error "TODO implement replicate"
 -- is an element of the list
 -----------------------------------------------------------------------------------------------------------
 elem :: (Eq a) => a -> [a] -> Bool
-elem e xs = error "TODO implement elem"
+elem e (x:xs) 
+    | e == x = True 
+    | otherwise = elem e xs
+elem e [] = False 
